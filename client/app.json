@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Emote",
-    "slug": "client",
+    "name": "emote",
+    "slug": "emote",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
