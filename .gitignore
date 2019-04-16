@@ -7,3 +7,6 @@
 **/*.mobileprovision
 ios/
 android/
+
+# OS-generated files #
+.DS_Store
