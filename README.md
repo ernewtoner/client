@@ -14,8 +14,17 @@
 
 OS X, Linux and Windows:
 
+Server:
+
 ```sh
-npm install
+cd server
+npm start
+```
+
+Client:
+
+```sh
+cd client
 expo start
 ```
 
