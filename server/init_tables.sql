@@ -17,10 +17,10 @@ CREATE TABLE users (
     last_name varchar(35)
 );
 
--- create chats table
+-- create chats table; name attr field is optional (defaults to null)
 CREATE TABLE chats (
     id serial PRIMARY KEY,
-    name varchar(40) NOT NULL
+    name varchar(40)
 );
 
 -- create messages table with fk refs to chats & users 
