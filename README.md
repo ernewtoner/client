@@ -14,17 +14,8 @@
 
 OS X, Linux and Windows:
 
-Server:
-
 ```sh
-cd server
-npm start
-```
-
-Client:
-
-```sh
-cd client
+npm install
 expo start
 ```
 
