@@ -8,6 +8,14 @@
     "test": "node ./node_modules/jest/bin/jest.js --watchAll",
     "prettier": "prettier \"*/**/*.js\" --ignore-path ./.prettierignore --write"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emote-chat/client.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/emote-chat/client/issues"
+  },
   "jest": {
     "preset": "jest-expo"
   },
