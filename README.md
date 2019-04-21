@@ -55,7 +55,7 @@ npm test
 * Eric Newtoner – [@ernewtoner](https://github.com/ernewtoner)
 * Michele Larson – [@mnicole](https://github.com/mnicole)
 
-Distributed under the GNU GPLv3 license. See the [LICENSE](LICENSE) file for more information.
+Distributed under the Apache v2.0 license. See the [LICENSE](LICENSE) file for more information.
 
 ## Contributing
 
