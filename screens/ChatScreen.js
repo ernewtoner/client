@@ -26,7 +26,6 @@ import {
 
 import { WebBrowser } from 'expo';
 
-import { MonoText } from '../components/StyledText';
 import { ChatMessage } from '../components/ChatMessage';
 
 // @NOTE Fake data for now
@@ -45,27 +44,14 @@ const messages = [
     }
 ];
 
-const chatNames = [
-    {
-        id: 1,
-        name: 'Best friends!'
-    },
-    {
-        id: 2,
-        name: 'Family ❤️'
-    },
-    {
-        id: 3,
-        name: 'OSU People'
-    }
-];
-
-export default class HomeScreen extends React.Component {
+export default class ChatScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
 
     render() {
+        const { navigation } = this.props;
+        const chatId = navigation.getParam('chatId');
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -75,11 +61,18 @@ export default class HomeScreen extends React.Component {
                         <Header>
                             <Left>
                                 <Button transparent>
-                                    <Icon name="menu" />
+                                    <Icon
+                                        name="md-arrow-back"
+                                        onPress={() =>
+                                            navigation.pop()
+                                        }
+                                    />
                                 </Button>
                             </Left>
                             <Body>
-                                <Title>Best friends!</Title>
+                                <Title>
+                                    {navigation.getParam('chatName')}
+                                </Title>
                             </Body>
                             <Right />
                         </Header>
@@ -95,36 +88,6 @@ export default class HomeScreen extends React.Component {
                                 )
                             )}
                         </Content>
-
-                        {/* @NOTE: COMMENT THIS BACK IN TO SEE CHAT VIEW
-                        <Header>
-                            <Left>
-                                <Button transparent>
-                                    <Icon name="menu" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title>Chats</Title>
-                            </Body>
-                            <Right />
-                        </Header>
-                        <Content>
-                            <List>
-                                {chatNames.map(
-                                    ({ id, name }) => (
-                                        <ListItem key={id}>
-                                            <Left>
-                                                <Text>{name}</Text>
-                                            </Left>
-                                            <Right>
-                                                <Icon name="arrow-forward" />
-                                            </Right>
-                                        </ListItem>
-                                    )
-                                )}
-                            </List>
-                        </Content>
-                        */}
                     </Container>
                 </ScrollView>
 
