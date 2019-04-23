@@ -13,21 +13,12 @@ import {
     Input
 } from 'native-base';
 
-export default class LoginScreen extends React.Component {
-    submitForm = () => {
-        // Validate form has proper input
-
-        // Submit credentials
-
-        // In promise response, if validated, direct to main page
-        this.props.navigation.navigate('Main');
-    };
-
+export default class SignUpScreen extends React.Component {
     render() {
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
-                    <H2 style={styles.content}>Emote</H2>
+                    <H2 style={styles.content}>Emote Sign Up</H2>
                     <Form style={styles.content}>
                         <Item stackedLabel>
                             <Label>Email</Label>
@@ -37,19 +28,10 @@ export default class LoginScreen extends React.Component {
                             <Label>Password</Label>
                             <Input />
                         </Item>
-                        <Button
-                            full
-                            style={styles.button}
-                            onPress={this.submitForm}>
-                            <Text>Login</Text>
+                        <Button full style={styles.button}>
+                            <Text>Sign Up</Text>
                         </Button>
                     </Form>
-                    <Text
-                        onPress={() =>
-                            this.props.navigation.navigate('SignUp')
-                        }>
-                        Sign Up
-                    </Text>
                 </Content>
             </Container>
         );

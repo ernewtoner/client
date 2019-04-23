@@ -6,19 +6,25 @@ import {
 } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import ChatsScreen from '../screens/ChatsScreen';
+import ChatScreen from '../screens/ChatScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const HomeStack = createStackNavigator({
-    Home: HomeScreen
+const ChatsStack = createStackNavigator({
+    Chats: ChatsScreen,
+    Chat: ChatScreen
 });
 
-HomeStack.navigationOptions = {
+ChatsStack.navigationOptions = {
     tabBarLabel: 'Chats',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'}
+            name={
+                Platform.OS === 'ios'
+                    ? 'ios-chatbubbles'
+                    : 'md-chatbubbles'
+            }
         />
     )
 };
@@ -33,13 +39,13 @@ SettingsStack.navigationOptions = {
         <TabBarIcon
             focused={focused}
             name={
-                Platform.OS === 'ios' ? 'ios-options' : 'md-options'
+                Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'
             }
         />
     )
 };
 
 export default createBottomTabNavigator({
-    HomeStack,
+    ChatsStack,
     SettingsStack
 });
