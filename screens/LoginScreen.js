@@ -10,10 +10,16 @@ import {
     Item,
     Form,
     Label,
-    Input
+    Input,
+    View
 } from 'native-base';
 
 export default class LoginScreen extends React.Component {
+    static navigationOptions = {
+        headerTitle: 'Emote',
+        headerBackTitle: 'Back'
+    }
+
     submitForm = () => {
         // Validate form has proper input
 
@@ -27,7 +33,7 @@ export default class LoginScreen extends React.Component {
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
-                    <H2 style={styles.content}>Emote</H2>
+                    <H2 style={styles.content}>Login</H2>
                     <Form style={styles.content}>
                         <Item stackedLabel>
                             <Label>Email</Label>
@@ -35,7 +41,7 @@ export default class LoginScreen extends React.Component {
                         </Item>
                         <Item stackedLabel last>
                             <Label>Password</Label>
-                            <Input />
+                            <Input secureTextEntry={true}/>
                         </Item>
                         <Button
                             full
@@ -44,11 +50,14 @@ export default class LoginScreen extends React.Component {
                             <Text>Login</Text>
                         </Button>
                     </Form>
-                    <Text
-                        onPress={() =>
-                            this.props.navigation.navigate('SignUp')
-                        }>
-                        Sign Up
+                    <Text style={styles.content}>
+                        Not registered?{' '}
+                        <Text
+                            style={styles.link}
+                            onPress={() =>
+                                this.props.navigation.navigate('SignUp')}>
+                            Sign up now
+                        </Text>
                     </Text>
                 </Content>
             </Container>
@@ -58,12 +67,15 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 15,
         backgroundColor: '#fff',
         flex: 1
     },
     content: {
+        marginTop: 10,
         textAlign: 'center'
+    },
+    link: {
+        color: 'rgb(49,125,246)'
     },
     button: {
         margin: 10
