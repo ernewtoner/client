@@ -13,12 +13,27 @@ import {
     Input
 } from 'native-base';
 
+// import { SignUpForm } from '../components/SignUpForm';
+
 export default class SignUpScreen extends React.Component {
+    static navigationOptions = {
+        headerTitle: 'Emote'
+    }
+
+    submitForm = () => {
+        // Validate form has proper input
+
+        // Submit credentials
+
+        // In promise response, if validated, direct to main page
+        this.props.navigation.navigate('Main');
+    };
+
     render() {
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
-                    <H2 style={styles.content}>Emote Sign Up</H2>
+                    <H2 style={styles.content}>Sign Up</H2>
                     <Form style={styles.content}>
                         <Item stackedLabel>
                             <Label>Email</Label>
@@ -26,9 +41,24 @@ export default class SignUpScreen extends React.Component {
                         </Item>
                         <Item stackedLabel last>
                             <Label>Password</Label>
-                            <Input />
+                            <Input secureTextEntry={true} />
                         </Item>
-                        <Button full style={styles.button}>
+                        <Item stackedLabel>
+                            <Label>Display Name</Label>
+                            <Input/>
+                        </Item>
+                        <Item stackedLabel>
+                            <Label>First Name</Label>
+                            <Input/>
+                        </Item>
+                        <Item stackedLabel last>
+                            <Label>Last Name</Label>
+                            <Input/>
+                        </Item>
+                        <Button
+                            full
+                            style={styles.button}
+                            onPress={this.submitForm}>
                             <Text>Sign Up</Text>
                         </Button>
                     </Form>
@@ -40,11 +70,11 @@ export default class SignUpScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 15,
         backgroundColor: '#fff',
         flex: 1
     },
     content: {
+        marginTop: 10,
         textAlign: 'center'
     },
     button: {
