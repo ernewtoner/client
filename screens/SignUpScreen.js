@@ -14,6 +14,7 @@ import {
 
 import { ErrorMessage } from '../components/ErrorMessage';
 import { baseUrl } from '../constants/api';
+import { handleResponse, storeData } from '../helpers/api';
 
 export default class SignUpScreen extends React.Component {
     static navigationOptions = {
@@ -37,6 +38,10 @@ export default class SignUpScreen extends React.Component {
             firstName,
             lastName
         } = this.state;
+
+        this.setState({
+            errorMessage: ''
+        });
 
         // Validate form has proper fields
         // @todo validate for email/password
@@ -63,27 +68,9 @@ export default class SignUpScreen extends React.Component {
             },
             body: JSON.stringify(data)
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw Error(
-                        'There was an error, please try again.'
-                    );
-                }
-            })
-            .then(({ access_token, user }) => {
-                try {
-                    const userData = [
-                        ['userToken', access_token],
-                        ['user', JSON.stringify(user)]
-                    ];
-                    AsyncStorage.multiSet(userData);
-                    this.props.navigation.navigate('Main');
-                } catch (error) {
-                    console.log('Error setting data');
-                }
-            })
+            .then(handleResponse)
+            .then(storeData)
+            .then(() => this.props.navigation.navigate('Main'))
             .catch(({ message }) => {
                 this.setState({
                     errorMessage: message
