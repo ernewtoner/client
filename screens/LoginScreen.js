@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, AsyncStorage } from 'react-native';
 
 import {
     Container,
@@ -14,22 +14,76 @@ import {
     View
 } from 'native-base';
 
+import { ErrorMessage } from '../components/ErrorMessage';
+import { baseUrl } from '../constants/api';
+
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Emote',
         headerBackTitle: 'Back'
-    }
+    };
 
-    submitForm = () => {
-        // Validate form has proper input
+    state = {
+        email: '',
+        password: '',
+        errorMessage: ''
+    };
+
+    submitForm = async () => {
+        const { email, password } = this.state;
+
+        // Validate form has proper fields
+        if (!email || !password) {
+            this.setState({
+                errorMessage:
+                    'You must enter your Email and Password.'
+            });
+            return;
+        }
+        const data = {
+            email,
+            password
+        };
 
         // Submit credentials
-
-        // In promise response, if validated, direct to main page
-        this.props.navigation.navigate('Main');
+        fetch(`${baseUrl}login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw Error(
+                        'There was an error, please try again.'
+                    );
+                }
+            })
+            .then(({ access_token, user }) => {
+                try {
+                    const userData = [
+                        ['userToken', access_token],
+                        ['user', JSON.stringify(user)]
+                    ];
+                    AsyncStorage.multiSet(userData);
+                    this.props.navigation.navigate('Main');
+                } catch (error) {
+                    console.log('Error setting data');
+                }
+            })
+            .catch(({ message }) => {
+                this.setState({
+                    errorMessage: message
+                });
+            });
     };
 
     render() {
+        const { errorMessage } = this.state;
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
@@ -37,11 +91,20 @@ export default class LoginScreen extends React.Component {
                     <Form style={styles.content}>
                         <Item stackedLabel>
                             <Label>Email</Label>
-                            <Input />
+                            <Input
+                                onChangeText={(email) =>
+                                    this.setState({ email })
+                                }
+                            />
                         </Item>
                         <Item stackedLabel last>
                             <Label>Password</Label>
-                            <Input secureTextEntry={true}/>
+                            <Input
+                                secureTextEntry
+                                onChangeText={(password) =>
+                                    this.setState({ password })
+                                }
+                            />
                         </Item>
                         <Button
                             full
@@ -55,10 +118,14 @@ export default class LoginScreen extends React.Component {
                         <Text
                             style={styles.link}
                             onPress={() =>
-                                this.props.navigation.navigate('SignUp')}>
+                                this.props.navigation.navigate(
+                                    'SignUp'
+                                )
+                            }>
                             Sign up now
                         </Text>
                     </Text>
+                    <ErrorMessage message={errorMessage} />
                 </Content>
             </Container>
         );

@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, AsyncStorage } from 'react-native';
 import {
     Container,
     H2,
@@ -13,47 +12,133 @@ import {
     Input
 } from 'native-base';
 
-// import { SignUpForm } from '../components/SignUpForm';
+import { ErrorMessage } from '../components/ErrorMessage';
+import { baseUrl } from '../constants/api';
 
 export default class SignUpScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Emote'
-    }
+    };
+
+    state = {
+        displayName: '',
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        errorMessage: ''
+    };
 
     submitForm = () => {
-        // Validate form has proper input
+        const {
+            displayName,
+            email,
+            password,
+            firstName,
+            lastName
+        } = this.state;
 
-        // Submit credentials
+        // Validate form has proper fields
+        // @todo validate for email/password
+        if (!displayName || !email || !password) {
+            this.setState({
+                errorMessage:
+                    'You must enter a Display Name, Email, and Password.'
+            });
+            return;
+        }
+        const data = {
+            display_name: displayName,
+            email,
+            password,
+            first_name: firstName,
+            last_name: lastName
+        };
 
-        // In promise response, if validated, direct to main page
-        this.props.navigation.navigate('Main');
+        fetch(`${baseUrl}signup`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw Error(
+                        'There was an error, please try again.'
+                    );
+                }
+            })
+            .then(({ access_token, user }) => {
+                try {
+                    const userData = [
+                        ['userToken', access_token],
+                        ['user', JSON.stringify(user)]
+                    ];
+                    AsyncStorage.multiSet(userData);
+                    this.props.navigation.navigate('Main');
+                } catch (error) {
+                    console.log('Error setting data');
+                }
+            })
+            .catch(({ message }) => {
+                this.setState({
+                    errorMessage: message
+                });
+            });
     };
 
     render() {
+        const { errorMessage } = this.state;
+
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
                     <H2 style={styles.content}>Sign Up</H2>
                     <Form style={styles.content}>
                         <Item stackedLabel>
-                            <Label>Email</Label>
-                            <Input />
+                            <Label>Email *</Label>
+                            <Input
+                                onChangeText={(email) =>
+                                    this.setState({ email })
+                                }
+                            />
                         </Item>
                         <Item stackedLabel last>
-                            <Label>Password</Label>
-                            <Input secureTextEntry={true} />
+                            <Label>Password *</Label>
+                            <Input
+                                secureTextEntry={true}
+                                onChangeText={(password) =>
+                                    this.setState({ password })
+                                }
+                            />
                         </Item>
                         <Item stackedLabel>
-                            <Label>Display Name</Label>
-                            <Input/>
+                            <Label>Display Name *</Label>
+                            <Input
+                                onChangeText={(displayName) =>
+                                    this.setState({ displayName })
+                                }
+                            />
                         </Item>
                         <Item stackedLabel>
                             <Label>First Name</Label>
-                            <Input/>
+                            <Input
+                                onChangeText={(firstName) =>
+                                    this.setState({ firstName })
+                                }
+                            />
                         </Item>
                         <Item stackedLabel last>
                             <Label>Last Name</Label>
-                            <Input/>
+                            <Input
+                                onChangeText={(lastName) =>
+                                    this.setState({ lastName })
+                                }
+                            />
                         </Item>
                         <Button
                             full
@@ -61,6 +146,7 @@ export default class SignUpScreen extends React.Component {
                             onPress={this.submitForm}>
                             <Text>Sign Up</Text>
                         </Button>
+                        <ErrorMessage message={errorMessage} />
                     </Form>
                 </Content>
             </Container>

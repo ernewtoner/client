@@ -1,5 +1,11 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import {
+    ScrollView,
+    View,
+    Text,
+    StyleSheet,
+    AsyncStorage
+} from 'react-native';
 
 import {
     Container,
@@ -17,6 +23,12 @@ export default class SettingsScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
+
+    _logout = async () => {
+        await AsyncStorage.clear();
+        this.props.navigation.navigate('Auth');
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -36,7 +48,9 @@ export default class SettingsScreen extends React.Component {
                             <Right />
                         </Header>
                         <Content>
-                            <Text>Settings here...</Text>
+                            <Button full onPress={this._logout}>
+                                <Text>Logout</Text>
+                            </Button>
                         </Content>
                     </Container>
                 </ScrollView>
