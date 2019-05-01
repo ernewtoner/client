@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 
 import {
     Container,
@@ -11,14 +12,15 @@ import {
     Form,
     Label,
     Input,
-    View
+    View,
+    ActionSheet
 } from 'native-base';
 
 import { ErrorMessage } from '../components/ErrorMessage';
 import { baseUrl } from '../constants/api';
 import { handleResponse, storeData } from '../helpers/api';
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Emote',
         headerBackTitle: 'Back'
@@ -29,6 +31,14 @@ export default class LoginScreen extends React.Component {
         password: '',
         errorMessage: ''
     };
+
+    increment = () => {
+        this.props.dispatch({ type: 'INCREMENT' });
+      }
+    
+    decrement = () => {
+        this.props.dispatch({ type: 'DECREMENT' });
+      }
 
     submitForm = async () => {
         const { email, password } = this.state;
@@ -112,12 +122,29 @@ export default class LoginScreen extends React.Component {
                             Sign up now
                         </Text>
                     </Text>
+                    <Text>Counter: {this.props.count}</Text>
+                    <Button
+                            style={styles.button}
+                            onPress={this.decrement}>
+                            <Text>-</Text>
+                    </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.increment}>
+                            <Text>+</Text>
+                    </Button>
                     <ErrorMessage message={errorMessage} />
                 </Content>
             </Container>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+      count: state.count
+    };
+  }
 
 const styles = StyleSheet.create({
     container: {
@@ -135,3 +162,5 @@ const styles = StyleSheet.create({
         margin: 10
     }
 });
+
+export default connect(mapStateToProps)(LoginScreen);
