@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { increment, decrement } from "../redux/actions";
+import { increment, decrement, addMessage } from "../redux/actions";
 
 import {
     Container,
@@ -32,6 +32,8 @@ class LoginScreen extends React.Component {
         password: '',
         errorMessage: ''
     };
+
+    sendMessage = () => (this.props.addMessage("Test"));
 
     submitForm = async () => {
         const { email, password } = this.state;
@@ -127,6 +129,11 @@ class LoginScreen extends React.Component {
                             onPress={this.props.increment}>
                             <Text>+</Text>
                     </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.sendMessage}>
+                            <Text>Add message</Text>
+                    </Button>
                     <ErrorMessage message={errorMessage} />
                 </Content>
             </Container>
@@ -136,13 +143,16 @@ class LoginScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      count: state.count
+      count: state.count,
+      history: state.messages,
+      userID: state.userID
     };
 }
 
 const mapDispatchToProps = {
     decrement,
-    increment
+    increment,
+    addMessage
   };
 
 const styles = StyleSheet.create({

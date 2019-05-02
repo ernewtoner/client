@@ -8,6 +8,6 @@ export default function configStore(initialState) {
       initialState,
       applyMiddleware(thunk)
     );
-  
+    
     return store;
 }
