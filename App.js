@@ -3,31 +3,10 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
-import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-//import thunk from 'redux-thunk';
+import configStore from './redux/store';
 
-const initialState = {
-  count: 0
-};
-
-function reducer(state = initialState, action) {
-  console.log(state.count);
-  switch(action.type) {
-    case 'INCREMENT':
-    return {
-      count: state.count + 1
-    };
-    case 'DECREMENT':
-    return {
-      count: state.count - 1
-    };
-    default:
-      return state;
-  }
-}
-
-const store = createStore(reducer);
+const store = configStore();
 
 export default class App extends React.Component {
   state = {

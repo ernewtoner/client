@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
+import { increment, decrement } from "../redux/actions";
 
 import {
     Container,
@@ -31,14 +32,6 @@ class LoginScreen extends React.Component {
         password: '',
         errorMessage: ''
     };
-
-    increment = () => {
-        this.props.dispatch({ type: 'INCREMENT' });
-      }
-    
-    decrement = () => {
-        this.props.dispatch({ type: 'DECREMENT' });
-      }
 
     submitForm = async () => {
         const { email, password } = this.state;
@@ -81,6 +74,7 @@ class LoginScreen extends React.Component {
 
     render() {
         const { errorMessage } = this.state;
+        console.log(this.props.count);
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
@@ -125,12 +119,12 @@ class LoginScreen extends React.Component {
                     <Text>Counter: {this.props.count}</Text>
                     <Button
                             style={styles.button}
-                            onPress={this.decrement}>
+                            onPress={this.props.decrement}>
                             <Text>-</Text>
                     </Button>
                     <Button
                             style={styles.button}
-                            onPress={this.increment}>
+                            onPress={this.props.increment}>
                             <Text>+</Text>
                     </Button>
                     <ErrorMessage message={errorMessage} />
@@ -144,7 +138,12 @@ function mapStateToProps(state) {
     return {
       count: state.count
     };
-  }
+}
+
+const mapDispatchToProps = {
+    decrement,
+    increment
+  };
 
 const styles = StyleSheet.create({
     container: {
@@ -163,4 +162,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
