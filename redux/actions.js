@@ -15,10 +15,11 @@ export function setCurrentChat(chatId) {
     };
 }
 
-export function addMessage(id, message, user, isSelf, emojis) {
+export function addMessage(id, cid, message, user, isSelf, emojis) {
     return {
         type: types.ADD_MESSAGE,
         payload: { "id": id,
+                   "chats_id" : cid,
                    "message": message,
                    "user": user, 
                    "isSelf": isSelf,
