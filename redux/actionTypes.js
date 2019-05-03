@@ -1,8 +1,9 @@
 // Action Types
-export const INCREMENT = "INCREMENT";
-export const DECREMENT = "DECREMENT";
 
-export const ADD_MESSAGE = 'ADD_MESSAGE'
-export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED'
-export const ADD_USER = 'ADD_USER'
-export const USERS_LIST = 'USERS_LIST'
+// Message
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+
+// User
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
+export const ADD_CHATROOM = 'ADD_CHATROOM';

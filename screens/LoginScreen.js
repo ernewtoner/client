@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { increment, decrement, addMessage } from "../redux/actions";
+import { addMessage, setCurrentUser, setCurrentChat, addChatRoom } from "../redux/actions";
 
 import {
     Container,
@@ -33,7 +33,19 @@ class LoginScreen extends React.Component {
         errorMessage: ''
     };
 
-    sendMessage = () => (this.props.addMessage("Test"));
+    addMessage = () => (this.props.addMessage(1, "Test", "David", true, { David: ':joy:', Nick: ':laughing:' } ));
+    setCurrentUser = () => (this.props.setCurrentUser("David"));
+    setCurrentChat = () => (this.props.setCurrentChat(1));
+    addChatRoom1= () => (this.props.addChatRoom(
+        1,
+        'Tea Chats',
+        ['David', 'Nick']
+    ));
+    addChatRoom2= () => (this.props.addChatRoom(
+        1,
+        'Coffee Chats',
+        ['David', 'Ryan']
+    ));
 
     submitForm = async () => {
         const { email, password } = this.state;
@@ -118,21 +130,30 @@ class LoginScreen extends React.Component {
                             Sign up now
                         </Text>
                     </Text>
-                    <Text>Counter: {this.props.count}</Text>
                     <Button
                             style={styles.button}
-                            onPress={this.props.decrement}>
-                            <Text>-</Text>
-                    </Button>
-                    <Button
-                            style={styles.button}
-                            onPress={this.props.increment}>
-                            <Text>+</Text>
-                    </Button>
-                    <Button
-                            style={styles.button}
-                            onPress={this.sendMessage}>
+                            onPress={this.addMessage}>
                             <Text>Add message</Text>
+                    </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.setCurrentUser}>
+                            <Text>Set current user</Text>
+                    </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.setCurrentChat}>
+                            <Text>Set current chat</Text>
+                    </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.addChatRoom1}>
+                            <Text>Add chatroom 1</Text>
+                    </Button>
+                    <Button
+                            style={styles.button}
+                            onPress={this.addChatRoom2}>
+                            <Text>Add chatroom 2</Text>
                     </Button>
                     <ErrorMessage message={errorMessage} />
                 </Content>
@@ -143,16 +164,17 @@ class LoginScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      count: state.count,
-      history: state.messages,
-      userID: state.userID
+      //count: state.count
+      //history: state.messages,
+      //userID: state.userID
     };
 }
 
 const mapDispatchToProps = {
-    decrement,
-    increment,
-    addMessage
+    addMessage,
+    setCurrentUser,
+    setCurrentChat,
+    addChatRoom
   };
 
 const styles = StyleSheet.create({

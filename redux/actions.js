@@ -1,56 +1,36 @@
 import * as types from "./actionTypes";
 
 // Action Creators
-export const increment = () => ({ type: types.INCREMENT });
-export const decrement = () => ({ type: types.DECREMENT });
-
-/* // @NOTE Fake data for now
-const messages = [
-    {
-        id: 1,
-        message: "hi i'm testing this app",
-        user: 'michele',
-        isSelf: true
-    },
-    {
-        id: 2,
-        message: 'cool it is working!',
-        user: 'sonam',
-        isSelf: false   
-    }
-];*/
-
-let nextMessageId = 0
-const nextUserId = 0
-
-export function setCurrentUserID(userID) {
+export function setCurrentUser(user) {
     return {
-        type: types.SET_CURRENT_USERID,
-        payload: userID,
+        type: types.SET_CURRENT_USER,
+        payload: user
     };
 }
 
-export function addMessage(message) {
+export function setCurrentChat(chatId) {
+    return {
+        type: types.SET_CURRENT_CHAT,
+        payload: chatId
+    };
+}
+
+export function addMessage(id, message, user, isSelf, emojis) {
     return {
         type: types.ADD_MESSAGE,
-        payload: message,
+        payload: { "id": id,
+                   "message": message,
+                   "user": user, 
+                   "isSelf": isSelf,
+                   "emojis": emojis }
     };
 }
 
-export const addUser = name => ({
-  type: types.ADD_USER,
-  id: nextUserId++,
-  name
-})
-
-export const messageReceived = (message, user) => ({
-  type: types.MESSAGE_RECEIVED,
-  id: nextMessageId++,
-  message,
-  user
-})
-
-export const populateUsersList = users => ({
-  type: types.USERS_LIST,
-  users
-})
+export function addChatRoom(id, name, users) {
+    return {
+        type: types.ADD_CHATROOM,
+        payload: { "id": id,
+                   "name": name, 
+                   "users": users }
+    };
+}
