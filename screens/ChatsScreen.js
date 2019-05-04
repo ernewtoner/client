@@ -9,6 +9,9 @@ import {
     FlatList,
     TouchableHighlight
 } from 'react-native';
+import { connect } from 'react-redux';
+import { createMessage, setCurrentUser, setCurrentChat, createChat } from "../actions";
+
 import {
     Container,
     Header,
@@ -42,10 +45,24 @@ const chatNames = [
     }
 ];
 
-export default class ChatsScreen extends React.Component {
+class ChatsScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
+
+    createMessage = () => (this.props.createMessage(1, 1, "Test", "David", { David: ':joy:', Nick: ':laughing:' }));
+    setCurrentUser = () => (this.props.setCurrentUser("David"));
+    setCurrentChat = () => (this.props.setCurrentChat(1));
+    createChat1 = () => (this.props.createChat(
+        1,
+        'Tea Chats',
+        ['David', 'Nick']
+    ));
+    createChat2 = () => (this.props.createChat(
+        2,
+        'Coffee Chats',
+        ['David', 'Ryan']
+    ));
 
     renderChats = ({ item, index }) => {
         return (
@@ -96,6 +113,31 @@ export default class ChatsScreen extends React.Component {
                                     String(index)
                                 }
                             />
+                            <Button
+                                style={styles.button}
+                                onPress={this.createMessage}>
+                                <Text>Add message</Text>
+                            </Button>
+                            <Button
+                                style={styles.button}
+                                onPress={this.setCurrentUser}>
+                                <Text>Set current user</Text>
+                            </Button>
+                            <Button
+                                style={styles.button}
+                                onPress={this.setCurrentChat}>
+                                <Text>Set current chat</Text>
+                            </Button>
+                            <Button
+                                style={styles.button}
+                                onPress={this.createChat1}>
+                                <Text>Add chat 1</Text>
+                            </Button>
+                            <Button
+                                style={styles.button}
+                                onPress={this.createChat2}>
+                                <Text>Add chat 2</Text>
+                            </Button>
                         </Content>
                     </Container>
                 </ScrollView>
@@ -103,6 +145,17 @@ export default class ChatsScreen extends React.Component {
         );
     }
 }
+
+function mapStateToProps({ chats }) {
+    return { chats };
+}
+
+const mapDispatchToProps = {
+    createMessage,
+    setCurrentUser,
+    setCurrentChat,
+    createChat
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -144,3 +197,5 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen);

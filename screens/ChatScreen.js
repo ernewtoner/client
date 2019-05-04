@@ -7,6 +7,8 @@ import {
     View,
     KeyboardAvoidingView
 } from 'react-native';
+import { connect } from 'react-redux';
+
 import {
     Container,
     Header,
@@ -44,7 +46,7 @@ const messages = [
     }
 ];
 
-export default class ChatScreen extends React.Component {
+class ChatScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
@@ -111,6 +113,13 @@ export default class ChatScreen extends React.Component {
     }
 }
 
+function mapStateToProps({ messages }) {
+    return { messages };
+}
+
+const mapDispatchToProps = {
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -151,3 +160,5 @@ const styles = StyleSheet.create({
         marginTop: 5
     }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

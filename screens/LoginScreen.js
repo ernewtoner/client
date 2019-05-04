@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 
 import {
     Container,
@@ -11,14 +12,15 @@ import {
     Form,
     Label,
     Input,
-    View
+    View,
+    ActionSheet
 } from 'native-base';
 
 import { ErrorMessage } from '../components/ErrorMessage';
 import { baseUrl } from '../constants/api';
 import { handleResponse, storeData } from '../helpers/api';
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Emote',
         headerBackTitle: 'Back'
@@ -71,6 +73,7 @@ export default class LoginScreen extends React.Component {
 
     render() {
         const { errorMessage } = this.state;
+        console.log(this.props.count);
         return (
             <Container style={styles.container}>
                 <Content style={styles.content}>
@@ -119,6 +122,20 @@ export default class LoginScreen extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        //history: state.messages,
+        //userID: state.userID
+    };
+}
+
+const mapDispatchToProps = {
+    /*addMessage,
+    setCurrentUser,
+    setCurrentChat,
+    addChatRoom*/
+};
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
@@ -135,3 +152,5 @@ const styles = StyleSheet.create({
         margin: 10
     }
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
