@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import * as types from "./actionTypes";
+import messageReducer from './messageReducer';
+import chatsReducer from './chatsReducer';
 
 /* Current shape of state:
  {
@@ -17,44 +18,6 @@ import * as types from "./actionTypes";
   ]
 } */
 
-const messageInitialState = {
-  messages: []
-};
-
-const userInitialState = {
-  user: '',
-  currentChat: 0,
-  chats: []
-};
-
-function messageReducer(state = messageInitialState, action) {  
-  console.log("messageReducer");
-  console.log(state); 
-    switch (action.type) {
-    case types.ADD_MESSAGE:
-      return {...state, messages: state.messages.concat(action.payload) };
-    default:
-       return state;
-  }
-}
-
-function userReducer(state = userInitialState, action) {
-  console.log("userReducer");
-  console.log(state); 
-  switch (action.type) {
-     case types.SET_CURRENT_USER:
-     return {...state, user: action.payload };
-     case types.SET_CURRENT_CHAT:
-     return {...state, currentChat: action.payload };
-     case types.ADD_CHATROOM:
-     return {...state, chats: state.chats.concat(action.payload) };
-  default:
-     return state;
-}
-}
-
-  const rootReducer = combineReducers({
-     messageReducer, userReducer
-  });
-
-  export default rootReducer;
+export default rootReducer = combineReducers({
+    messageReducer, chatsReducer
+});

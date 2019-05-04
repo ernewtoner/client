@@ -1,4 +1,4 @@
-import * as types from "./actionTypes";
+import * as types from "../constants/actionTypes";
 
 // Action Creators
 export function setCurrentUser(user) {
@@ -15,23 +15,26 @@ export function setCurrentChat(chatId) {
     };
 }
 
-export function addMessage(id, cid, message, user, isSelf, emojis) {
+export function createMessage(id, cid, message, user, emojis) {
     return {
-        type: types.ADD_MESSAGE,
-        payload: { "id": id,
-                   "chats_id" : cid,
-                   "message": message,
-                   "user": user, 
-                   "isSelf": isSelf,
-                   "emojis": emojis }
+        type: types.CREATE_MESSAGE,
+        payload: {
+            id,
+            chats_id: cid,
+            message,
+            user,
+            emojis
+        }
     };
 }
 
-export function addChatRoom(id, name, users) {
+export function createChat(id, name, users) {
     return {
-        type: types.ADD_CHATROOM,
-        payload: { "id": id,
-                   "name": name, 
-                   "users": users }
+        type: types.CREATE_CHAT,
+        payload: {
+            id,
+            name,
+            users
+        }
     };
 }

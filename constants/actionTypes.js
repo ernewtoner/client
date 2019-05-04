@@ -1,9 +1,9 @@
 // Action Types
 
-// Message
-export const ADD_MESSAGE = 'ADD_MESSAGE';
+// Message Reducer
+export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 
-// User
+// Chats Reducer
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
-export const ADD_CHATROOM = 'ADD_CHATROOM';
+export const CREATE_CHAT = 'CREATE_CHAT';

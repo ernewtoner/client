@@ -10,7 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import { addMessage, setCurrentUser, setCurrentChat, addChatRoom } from "../redux/actions";
+import { createMessage, setCurrentUser, setCurrentChat, createChat } from "../actions";
 
 import {
     Container,
@@ -50,15 +50,15 @@ class ChatsScreen extends React.Component {
         header: null
     };
 
-    addMessage = () => (this.props.addMessage(1, 1, "Test", "David", true, { David: ':joy:', Nick: ':laughing:' } ));
+    createMessage = () => (this.props.createMessage(1, 1, "Test", "David", { David: ':joy:', Nick: ':laughing:' }));
     setCurrentUser = () => (this.props.setCurrentUser("David"));
     setCurrentChat = () => (this.props.setCurrentChat(1));
-    addChatRoom1= () => (this.props.addChatRoom(
+    createChat1 = () => (this.props.createChat(
         1,
         'Tea Chats',
         ['David', 'Nick']
     ));
-    addChatRoom2= () => (this.props.addChatRoom(
+    createChat2 = () => (this.props.createChat(
         2,
         'Coffee Chats',
         ['David', 'Ryan']
@@ -114,29 +114,29 @@ class ChatsScreen extends React.Component {
                                 }
                             />
                             <Button
-                            style={styles.button}
-                            onPress={this.addMessage}>
-                            <Text>Add message</Text>
+                                style={styles.button}
+                                onPress={this.createMessage}>
+                                <Text>Add message</Text>
                             </Button>
                             <Button
-                            style={styles.button}
-                            onPress={this.setCurrentUser}>
-                            <Text>Set current user</Text>
+                                style={styles.button}
+                                onPress={this.setCurrentUser}>
+                                <Text>Set current user</Text>
                             </Button>
                             <Button
-                            style={styles.button}
-                            onPress={this.setCurrentChat}>
-                            <Text>Set current chat</Text>
+                                style={styles.button}
+                                onPress={this.setCurrentChat}>
+                                <Text>Set current chat</Text>
                             </Button>
                             <Button
-                            style={styles.button}
-                            onPress={this.addChatRoom1}>
-                            <Text>Add chatroom 1</Text>
+                                style={styles.button}
+                                onPress={this.createChat1}>
+                                <Text>Add chat 1</Text>
                             </Button>
                             <Button
-                            style={styles.button}
-                            onPress={this.addChatRoom2}>
-                            <Text>Add chatroom 2</Text>
+                                style={styles.button}
+                                onPress={this.createChat2}>
+                                <Text>Add chat 2</Text>
                             </Button>
                         </Content>
                     </Container>
@@ -146,20 +146,16 @@ class ChatsScreen extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-      chats: state.chats
-      //history: state.messages,
-      //userID: state.userID
-    };
+function mapStateToProps({ chats }) {
+    return { chats };
 }
 
 const mapDispatchToProps = {
-    addMessage,
+    createMessage,
     setCurrentUser,
     setCurrentChat,
-    addChatRoom
-  };
+    createChat
+};
 
 const styles = StyleSheet.create({
     container: {

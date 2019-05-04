@@ -113,16 +113,12 @@ class ChatScreen extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-      //chatRooms: state.chatRooms
-      messages: state.messages
-      //userID: state.userID
-    };
+function mapStateToProps({ messages }) {
+    return { messages };
 }
 
 const mapDispatchToProps = {
-  };
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -124,8 +124,8 @@ class LoginScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      //history: state.messages,
-      //userID: state.userID
+        //history: state.messages,
+        //userID: state.userID
     };
 }
 
@@ -134,7 +134,7 @@ const mapDispatchToProps = {
     setCurrentUser,
     setCurrentChat,
     addChatRoom*/
-  };
+};
 
 const styles = StyleSheet.create({
     container: {
