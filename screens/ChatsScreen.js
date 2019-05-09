@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import {
     Platform,
     ScrollView,
@@ -7,11 +10,9 @@ import {
     View,
     KeyboardAvoidingView,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
-import { connect } from 'react-redux';
-import { createMessage, setCurrentUser, setCurrentChat, createChat } from "../actions";
-
 import {
     Container,
     Header,
@@ -27,42 +28,16 @@ import {
     Item,
     Input
 } from 'native-base';
-
-// import { WebBrowser } from 'expo';
-
-const chatNames = [
-    {
-        id: 1,
-        name: 'Best friends!'
-    },
-    {
-        id: 2,
-        name: 'Family ❤️'
-    },
-    {
-        id: 3,
-        name: 'OSU People'
-    }
-];
+import { fetchChats, setCurrentChat } from '../actions/chats';
 
 class ChatsScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
 
-    createMessage = () => (this.props.createMessage(1, 1, "Test", "David", { David: ':joy:', Nick: ':laughing:' }));
-    setCurrentUser = () => (this.props.setCurrentUser("David"));
-    setCurrentChat = () => (this.props.setCurrentChat(1));
-    createChat1 = () => (this.props.createChat(
-        1,
-        'Tea Chats',
-        ['David', 'Nick']
-    ));
-    createChat2 = () => (this.props.createChat(
-        2,
-        'Coffee Chats',
-        ['David', 'Ryan']
-    ));
+    componentDidMount() {
+        this.props.fetchChats();
+    }
 
     renderChats = ({ item, index }) => {
         return (
@@ -70,12 +45,13 @@ class ChatsScreen extends React.Component {
                 key={item.id}
                 button={true}
                 first={index === 0}
-                onPress={() =>
+                onPress={() => {
+                    this.props.setCurrentChat(item);
                     this.props.navigation.navigate('Chat', {
                         chatName: item.name,
                         chatId: item.id
-                    })
-                }>
+                    });
+                }}>
                 <Left>
                     <Text>{item.name}</Text>
                 </Left>
@@ -87,6 +63,7 @@ class ChatsScreen extends React.Component {
     };
 
     render() {
+        const { navigation, chats } = this.props;
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -105,39 +82,23 @@ class ChatsScreen extends React.Component {
                             <Right />
                         </Header>
                         <Content>
-                            <FlatList
-                                data={chatNames}
-                                renderItem={this.renderChats}
-                                navigation={this.props.navigation}
-                                keyExtractor={(item, index) =>
-                                    String(index)
-                                }
-                            />
                             <Button
                                 style={styles.button}
-                                onPress={this.createMessage}>
-                                <Text>Add message</Text>
+                                onPress={() =>
+                                    navigation.navigate('CreateChat')
+                                }>
+                                <Text>Create new chat</Text>
                             </Button>
-                            <Button
-                                style={styles.button}
-                                onPress={this.setCurrentUser}>
-                                <Text>Set current user</Text>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                onPress={this.setCurrentChat}>
-                                <Text>Set current chat</Text>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                onPress={this.createChat1}>
-                                <Text>Add chat 1</Text>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                onPress={this.createChat2}>
-                                <Text>Add chat 2</Text>
-                            </Button>
+                            {
+                                <FlatList
+                                    data={chats}
+                                    renderItem={this.renderChats}
+                                    navigation={navigation}
+                                    keyExtractor={(item, index) =>
+                                        String(index)
+                                    }
+                                />
+                            }
                         </Content>
                     </Container>
                 </ScrollView>
@@ -146,16 +107,16 @@ class ChatsScreen extends React.Component {
     }
 }
 
-function mapStateToProps({ chats }) {
-    return { chats };
-}
-
-const mapDispatchToProps = {
-    createMessage,
-    setCurrentUser,
-    setCurrentChat,
-    createChat
+const mapStateToProps = ({ chatsReducer: { chats } }) => {
+    return {
+        chats
+    };
 };
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchChats: bindActionCreators(fetchChats, dispatch),
+    setCurrentChat: bindActionCreators(setCurrentChat, dispatch)
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -198,4 +159,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ChatsScreen);

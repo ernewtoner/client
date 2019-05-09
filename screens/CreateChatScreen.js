@@ -1,19 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Platform,
     ScrollView,
     StyleSheet,
     TouchableOpacity,
     View,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    AsyncStorage
 } from 'react-native';
-import { connect } from 'react-redux';
-
 import {
     Container,
     Header,
     Title,
     Content,
+    Form,
+    Label,
     Button,
     Left,
     Right,
@@ -25,35 +27,24 @@ import {
     Item,
     Input
 } from 'native-base';
-
-import { WebBrowser } from 'expo';
-
-import { ChatMessage } from '../components/ChatMessage';
-
-// @NOTE Fake data for now
-const messages = [
-    {
-        id: 1,
-        message: "hi i'm testing this app",
-        user: 'michele',
-        isSelf: true
-    },
-    {
-        id: 2,
-        message: 'cool it is working!',
-        user: 'sonam',
-        isSelf: false
-    }
-];
-
-class ChatScreen extends React.Component {
+import { putChat } from '../actions/chats';
+class CreateChatScreen extends React.Component {
     static navigationOptions = {
         header: null
     };
 
+    state = {
+        name: ''
+    };
+
+    _submitForm = async () => {
+        const { name } = this.state;
+        this.props.putChat(name);
+        this.props.navigation.pop();
+    };
+
     render() {
         const { navigation } = this.props;
-        const chatId = navigation.getParam('chatId');
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -73,57 +64,43 @@ class ChatScreen extends React.Component {
                             </Left>
                             <Body>
                                 <Title>
-                                    {navigation.getParam('chatName')}
+                                    <Text>Create Chat</Text>
                                 </Title>
                             </Body>
                             <Right />
                         </Header>
                         <Content>
-                            {messages &&
-                                messages.map(
-                                    ({
-                                        message,
-                                        id,
-                                        isSelf,
-                                        user
-                                    }) => (
-                                        <ChatMessage
-                                            message={message}
-                                            key={id}
-                                            isSelf={isSelf}
-                                            user={user}
-                                        />
-                                    )
-                                )}
+                            <Form style={styles.content}>
+                                <Item stackedLabel>
+                                    <Label>Name</Label>
+                                    <Input
+                                        onChangeText={(name) =>
+                                            this.setState({ name })
+                                        }
+                                    />
+                                </Item>
+                                <Button
+                                    full
+                                    style={styles.button}
+                                    onPress={this._submitForm}>
+                                    <Text>Create</Text>
+                                </Button>
+                            </Form>
                         </Content>
                     </Container>
                 </ScrollView>
-
-                <KeyboardAvoidingView
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        bottom: 0
-                    }}
-                    behavior="position">
-                    <Item style={styles.chatInput} regular>
-                        <Input placeholder="Type your message here!" />
-                        <Button style={styles.chatButton}>
-                            <Text>Send</Text>
-                        </Button>
-                    </Item>
-                </KeyboardAvoidingView>
             </View>
         );
     }
 }
 
-function mapStateToProps({ messages }) {
-    return { messages };
+function mapStateToProps() {
+    return {};
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    putChat
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -169,4 +146,4 @@ const styles = StyleSheet.create({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ChatScreen);
+)(CreateChatScreen);
