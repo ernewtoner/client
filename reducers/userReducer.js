@@ -1,16 +1,18 @@
 import * as types from '../constants/actionTypes';
 
 const userInitialState = {
-    user: {}
+    currentUser: {}
 };
 
 function userReducer(state = userInitialState, action) {
+    console.log('userReducer');
+    console.log(state);
     const { payload, type } = action;
     switch (type) {
         case types.SET_CURRENT_USER:
             return {
                 ...state,
-                user: payload
+                currentUser: payload
             };
         default:
             return state;
