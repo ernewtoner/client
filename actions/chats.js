@@ -27,16 +27,10 @@ const getMessages = (data) => {
     };
 };
 
-
-export const createMessage = (id, users_id, created_at, text) => {
+export const createMessage = (data) => {
     return {
         type: types.CREATE_MESSAGE,
-        payload: {
-            id,
-            users_id,
-            created_at,
-            text
-        }
+        payload: data
     };
 };
 
@@ -155,13 +149,9 @@ export const putMessage = (cid, text) => {
             headers,
             body: JSON.stringify({ text })
         })
-        // Returns nothing if successful so need a specific case covering this
-
-        // Messages currently refreshed by just calling fetchMessagesInChat again
-
-            //.then(handleResponse)
-            //.then((data) => {
-                //dispatch(createMessage(data));
-           // });
+            .then(handleResponse)
+            .then((data) => {
+                dispatch(createMessage(data));
+           });
     };
 };
