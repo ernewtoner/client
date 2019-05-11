@@ -93,10 +93,10 @@ class ChatScreen extends React.Component {
                                         <ChatMessage
                                             text={text}
                                             key={id}
-                                            users_id={users_id}
-                                            currentUser_id={currentUser.id}
-                                            currentUser_name={currentUser.display_name}
-                                            created_at={created_at}
+                                            userId={users_id}
+                                            currentUserId={currentUser.id}
+                                            currentUserName={currentUser.display_name}
+                                            createdTimestamp={created_at}
                                         />
                                     )
                                 )}

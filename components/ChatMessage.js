@@ -4,16 +4,16 @@ import { Content } from 'native-base';
 
 export class ChatMessage extends React.Component {
     render() {
-        const { text, users_id, created_timestamp, currentUser_id, currentUser_name } = this.props;
+        const { text, userId, createdTimestamp, currentUserId, currentUserName } = this.props;
         // Need to fetch display name for users other than self, which will involve the restructuring of the chats/messages state, put the below just as a placeholder
         return (
             <Content style={styles.content}>
-                <Text style={users_id === currentUser_id ? styles.self : styles.user}>
-                    {users_id === currentUser_id ? currentUser_name : users_id}
+                <Text style={userId === currentUserId ? styles.self : styles.user}>
+                    {userId === currentUserId ? currentUserName : userId}
                 </Text>
                 <Text
                     style={
-                        users_id === currentUser_id ? styles.messageSelf : styles.message
+                       userId === currentUserId ? styles.messageSelf : styles.message
                     }>
                     {text}
                 </Text>

@@ -41,13 +41,13 @@ const createChat = (data) => {
     };
 };
 
-const createUserInChat = (cid, users_id, display_name) => {
+const createUserInChat = (cid, userId, displayName) => {
     return {
         type: types.CREATE_USER_IN_CHAT,
         payload: { 
             cid,
-            users_id,
-            display_name
+            userId,
+            displayName
         }
     };
 };
@@ -68,8 +68,7 @@ export const fetchChats = (data) => {
 export const fetchMessagesInChat = (cid) => {
     return async (dispatch, getState) => {
         const headers = await addAuthHeader();
-        const requestString = `${baseUrl}chat/` + cid;
-        return fetch(requestString, {
+        return fetch(`${baseUrl}chat/${cid}`, {
             headers
         })
             .then(handleResponse)
@@ -101,8 +100,7 @@ export const putChat = (name) => {
     };
 };
 
-export const putUserInChat = (//cid, uid
-) => {
+export const putUserInChat = (cid, userId) => {
     return async (dispatch) => {
         const addUserId = true;
         const headers = await addAuthHeader(
@@ -112,13 +110,9 @@ export const putUserInChat = (//cid, uid
             },
             addUserId
         );
-        //const destinationCid = await cid;
-        //const destinationUserId = await uid;
-        //const requestString = `${baseUrl}chat/` + destinationCid + `/` + destinationUserId;
-
-        // Harcoding for now to test functionality
-        const requestString = `${baseUrl}chat/1/3`;
-        return fetch(requestString, {
+        const destinationCid = await cid;
+        const destinationUserId = await userId;
+        return fetch(`${baseUrl}chat/${destinationCid}/${destinationUserId}`, {
             method: 'POST',
             headers
         })
@@ -127,7 +121,7 @@ export const putUserInChat = (//cid, uid
             
             //.then(handleResponse)
             //.then((data) => {
-                //dispatch(createUserInChat(cid, uid));
+                //dispatch(createUserInChat(cid, userId, displayName));
            // });
     };
 };
@@ -143,8 +137,7 @@ export const putMessage = (cid, text) => {
             addUserId
         );
         const destinationCid = await cid;
-        const requestString = `${baseUrl}chat/` + destinationCid + `/message`;
-        return fetch(requestString, {
+        return fetch(`${baseUrl}chat/${destinationCid}/message`, {
             method: 'POST',
             headers,
             body: JSON.stringify({ text })

@@ -56,10 +56,10 @@ class ChatsScreen extends React.Component {
     }
 
     componentDidMount() {
-        // If current user object is empty, populate
-        if (Object.getOwnPropertyNames(this.props.currentUser).length === 0) {
+        if (!this.props.currentUser) {
             this.getUser().then(user => this.props.setCurrentUser(user));
         }
+
         this.props.fetchChats();
     }
 
@@ -118,8 +118,8 @@ class ChatsScreen extends React.Component {
                             </Button>
                             <Button
                                 style={styles.button}
-                                onPress={
-                                    this.props.putUserInChat
+                                onPress={() =>
+                                    this.props.putUserInChat(1, 3)
                                 }>
                                 <Text>Add user 3 to chat 1</Text>
                             </Button>

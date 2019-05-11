@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 const userInitialState = {
-    currentUser: {}
+    currentUser: null
 };
 
 function userReducer(state = userInitialState, action) {
