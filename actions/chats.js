@@ -110,11 +110,8 @@ export const putUserInChat = (cid, userId) => {
             },
             addUserId
         );
-        const destinationCid = await cid;
-        const destinationUserId = await userId;
-        return fetch(`${baseUrl}chat/${destinationCid}/${destinationUserId}`, {
-            method: 'POST',
-            headers
+        return fetch(`${baseUrl}chat/${cid}/${userId}`, {
+            method: 'POST'
         })
         
         // Returns nothing if successful so need a specific case covering this
@@ -136,8 +133,7 @@ export const putMessage = (cid, text) => {
             },
             addUserId
         );
-        const destinationCid = await cid;
-        return fetch(`${baseUrl}chat/${destinationCid}/message`, {
+        return fetch(`${baseUrl}chat/${cid}/message`, {
             method: 'POST',
             headers,
             body: JSON.stringify({ text })

@@ -42,7 +42,7 @@ class ChatScreen extends React.Component {
     };
 
     // Send message form
-    _submitForm = async () => {
+    _submitForm = () => {
         const { inputText } = this.state;
         const cid = this.props.navigation.getParam('chatId')
         this.props.putMessage(cid, inputText);

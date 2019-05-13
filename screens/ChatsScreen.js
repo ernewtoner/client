@@ -77,7 +77,7 @@ class ChatsScreen extends React.Component {
                     });
                     // Chat information needs to be updated after new chat is created
                     // Need to implement function to concat the new chat, doing inefficient fetch for now
-                    this.props.fetchChats();
+                    //this.props.fetchChats();
                 }}>
                 <Left>
                     <Text>{item.name}</Text>
